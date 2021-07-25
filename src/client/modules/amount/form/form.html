@@ -1,0 +1,14 @@
+<template>
+  <template if:true={errorMessage}>
+    <div class="alert alert-error">{errorMessage}</div>
+  </template>
+  <div class="row">
+    <label for="currentAmount" class="col-sm-2 col-form-label">合計資産価値</label>
+    <div class="col-md-10">
+      <input type="number" name="currentAmount" id="currentAmount" min="0" class="form-control" value={currentAmount} />
+    </div>
+  </div>
+  <div class="text-end">
+    <button type="button" class="btn btn-primary" onclick={handleSubmit}>入力</button>
+  </div>
+</template>

@@ -1,0 +1,23 @@
+<template>
+  <template if:true={editTarget}>
+    <lib-dialog
+      title="購入記録更新"
+      submit-name="保存"
+      cancel-name="キャンセル"
+      is-large="true"
+      onclose={dispatchClose}
+      onsubmit={onSubmit}>
+      
+      <template if:true={errorMessage}>
+        <div class="alert alert-danger">{errorMessage}</div>
+      </template>
+      
+      <form action="#" method="get" onsubmit={suspendEvent}>
+        <div class="mb-3">
+          <label for="amount" class="form-label">資産価値</label>
+          <input type="number" name="amount" id="amount" class="form-control" min="0" value={editTarget.currentValuation} />
+        </div>
+      </form>
+    </lib-dialog>
+  </template>
+</template>

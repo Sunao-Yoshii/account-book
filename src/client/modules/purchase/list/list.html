@@ -1,0 +1,42 @@
+<template>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>売却済み</th>
+        <th>購入日</th>
+        <th>購入金額</th>
+        <th>目標金額</th>
+        <th>資産価値</th>
+        <th>最終更新日</th>
+        <!-- <th>詳細</th> -->
+        <th>更新</th>
+        <!-- <th>売却</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <template for:each={internalList} for:item="row">
+        <tr key={row.id}>
+          <td>
+            <template if:true={row.isClosed}>
+              <input disabled checked type="checkbox" class="form-check-label" name="" />
+            </template>
+            <template if:false={row.isClosed}>
+              <input disabled type="checkbox" class="form-check-label" name="" />
+            </template>
+          </td>
+          <td>{row.createdDate}</td>
+          <td>{row.buyAmount}</td>
+          <td>{row.targetAmount}</td>
+          <td>{row.currentValuation}</td>
+          <td>{row.updatedDate}</td>
+          <!-- <td><button type="button" class="btn btn-info">詳細</button></td> -->
+          <td><button type="button" class="btn btn-warning" data-id={row.id} onclick={handleUpdateButton}>更新</button></td>
+          <!-- <td><button type="button" class="btn btn-danger">売却</button></td> -->
+        </tr>
+      </template>
+    </tbody>
+  </table>
+  <template if:true={isShowUpdateForm}>
+    <purchase-update-form edit-target={editTarget} onclose={handleClose} onupdate={handleUpdate}></purchase-update-form>
+  </template>
+</template>

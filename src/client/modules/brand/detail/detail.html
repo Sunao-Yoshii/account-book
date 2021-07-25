@@ -1,0 +1,19 @@
+<template>
+  <template if:true={brand}>
+    <table class="table table-striped">
+      <tr>
+        <th>ID</th>
+        <td>{brand.id}</td>
+      </tr>
+      <tr>
+        <th>名称</th>
+        <td>{brand.name}</td>
+      </tr>
+      <tr>
+        <th>説明</th>
+        <td>{brand.description}</td>
+      </tr>
+    </table>
+    <button type="button" class="btn btn-danger" onclick={handleDelete}>削除</button>
+  </template>
+</template>

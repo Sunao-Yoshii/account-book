@@ -1,0 +1,21 @@
+<template>
+  <template if:true={errorMessage}>
+    <div class="alert alert-danger"><strong>{errorMessage}</strong></div>
+  </template>
+  <template if:true={selectedId}>
+    <h3>銘柄</h3>
+    <brand-detail brand={brand} onremove={handleRemove}></brand-detail>
+    <hr>
+    <h3>最新の合計資産価値</h3>
+    <amount-form brand-id={selectedId} onsaved={handleSubmit}></amount-form>
+    <hr>
+    <h3>購入記録</h3>
+    <purchase-list purchase-list={purchaseList} onupdated={handleSubmit}></purchase-list>
+    <purchase-form brand-id={selectedId} oncreate={handleSubmit}></purchase-form>
+  </template>
+  <template if:false={selectedId}>
+    <div class="alert alert-warning">
+      <strong>左のサイドバーより、参照する銘柄を選択してください。</strong>
+    </div>
+  </template>
+</template>

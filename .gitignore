@@ -30,3 +30,6 @@ $RECYCLE.BIN/
 
 # Husky
 .husky
+
+# sqlite data
+*.sqlite3
