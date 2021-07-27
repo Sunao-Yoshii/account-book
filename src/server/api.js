@@ -59,7 +59,8 @@ app.post('/api/brands', async (req, res) => {
 
 app.get('/api/purchase/:id', async (req, res) => {
   try {
-    res.json(await PurchaseTable.selectByBrand(req.params['id']));
+    const result = await PurchaseTable.selectByBrand(req.params['id']);
+    res.json(result);
   } catch (error) {
     res.status(500).json({ success: false, message: error });    
   }
@@ -102,6 +103,19 @@ app.post('/api/currentAmount', async (req, res) => {
 
     // update.
     await logic.AssetsLogic.putCurrentAmount(baseObject);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Has error!' });
+  }
+});
+
+app.post('/api/sell', async (req, res) => {
+  try {
+    let sellObject = new logic.SellRequest(req.body);
+    if (!sellObject.purchaseId) {
+      res.status(400).json({ success: false, message: '売却する購入履歴を指定してください。' });
+    }
+    await logic.AssetsLogic.sell(sellObject);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Has error!' });

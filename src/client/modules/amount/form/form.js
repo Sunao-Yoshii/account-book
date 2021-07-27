@@ -3,6 +3,14 @@ import { api } from 'lwc';
 
 export default class Form extends CssCommonElement {
   @api brandId;
+  @api get defaultAmount() {
+    return this._internalAmount;
+  }
+  set defaultAmount(v) {
+    this._internalAmount = v;
+    this.currentAmount = v;
+  }
+  _internalAmount = 0;
   currentAmount = 0;
   errorMessage = null;
 

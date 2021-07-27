@@ -28,6 +28,21 @@ class CurrentAmount {
   }
 }
 
+class SellRequestDefault {
+  purchaseId = null;
+  amount = 0;
+  sellAt = currentDate();
+}
+
+class SellRequest {
+  constructor(option) {
+    const defaults = new SellRequestDefault();
+    this.purchaseId = option.purchaseId || defaults.purchaseId;
+    this.amount = option.amount || defaults.amount;
+    this.sellAt = option.sellAt || defaults.sellAt;
+  }
+}
+
 class AssetsLogic {
   static async deleteBrand(brandId) {
     const db = DBCommon.get();
@@ -85,10 +100,61 @@ class AssetsLogic {
         db.exec('rollback');
         return reject(error);
       }
-    
     })
+  }
+
+  /**
+   * @param {SellRequest} values 
+   */
+  static async sell(values) {
+    return new Promise(async (resolve, reject) => {
+      // 売却予定の購入履歴を取得
+      let target = await PurchaseTable.selectById(values.purchaseId);
+      if (!target || target.length === 0) {
+        reject(new Error('対象の購入履歴が見つかりませんでした'));
+        return;
+      }
+
+      // 端数を適用する購入履歴を取得
+      let applyTarget = await PurchaseTable.selectLatestByBrand(target[0].brandId);
+      if (!applyTarget || applyTarget.length === 0) {
+        reject(new Error('差額の適用先がありません'));
+        return;
+      }
+
+      // 端数金額を計算
+      const diffAmount = target[0].currentValuation - values.amount;
+      if (diffAmount < 0) {
+        diffAmount = 0;
+      }
+
+      const db = DBCommon.get();
+      try {
+        db.exec('begin');
+        // 売却対象履歴の金額を 0 更新して、売却済みフラグを指定する
+        let updateValue = target[0];
+        updateValue.currentValuation = 0;
+        updateValue.isClosed = 1;
+        updateValue.updatedAt = values.sellAt;
+        await PurchaseTable.update(updateValue);
+
+        // 端数金額を適用先に追加
+        if (diffAmount) {
+          let applyValue = applyTarget[0];
+          applyValue.currentValuation += diffAmount;
+          applyValue.updatedAt = values.sellAt;
+          await PurchaseTable.update(applyValue);
+        }
+        db.exec('commit');
+      } catch (error) {
+        console.log(error);
+        db.exec('rollback');
+        return reject(error);
+      }
+    });
   }
 }
 
 exports.CurrentAmount = CurrentAmount;
+exports.SellRequest = SellRequest;
 exports.AssetsLogic = AssetsLogic;

@@ -10,7 +10,7 @@
         <th>最終更新日</th>
         <!-- <th>詳細</th> -->
         <th>更新</th>
-        <!-- <th>売却</th> -->
+        <th>売却</th>
       </tr>
     </thead>
     <tbody>
@@ -31,12 +31,15 @@
           <td>{row.updatedDate}</td>
           <!-- <td><button type="button" class="btn btn-info">詳細</button></td> -->
           <td><button type="button" class="btn btn-warning" data-id={row.id} onclick={handleUpdateButton}>更新</button></td>
-          <!-- <td><button type="button" class="btn btn-danger">売却</button></td> -->
+          <td><button type="button" class="btn btn-danger" data-id={row.id} onclick={handleSell}>売却</button></td>
         </tr>
       </template>
     </tbody>
   </table>
   <template if:true={isShowUpdateForm}>
     <purchase-update-form edit-target={editTarget} onclose={handleClose} onupdate={handleUpdate}></purchase-update-form>
+  </template>
+  <template if:true={isShowSellForm}>
+    <purchase-sell-form target-purchase={editTarget} onclose={handleClose}></purchase-sell-form>
   </template>
 </template>

@@ -12,6 +12,7 @@ export default class Lists extends CssCommonElement {
     return this.internalList;
   }
   isShowUpdateForm = false;
+  isShowSellForm = false;
   editTarget = null;
 
   set purchaseList(value) {
@@ -34,10 +35,18 @@ export default class Lists extends CssCommonElement {
 
   handleClose() {
     this.isShowUpdateForm = false;
+    this.isShowSellForm = false;
   }
 
   handleUpdate() {
     this.isShowUpdateForm = false;
+    this.isShowSellForm = false;
     this.dispatchEvent(new CustomEvent('updated'));
+  }
+
+  handleSell(event) {
+    let upTargetId = event.path[0].getAttribute('data-id');
+    this.editTarget = this.internalList.filter(v => v.id == upTargetId)[0];
+    this.isShowSellForm = true;
   }
 }

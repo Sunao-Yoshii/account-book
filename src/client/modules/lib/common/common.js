@@ -105,4 +105,5 @@ export class Endpoints {
   static UPDATE_PURCHASES = '/api/purchase/';
   static POST_PURCHASES = '/api/purchases';
   static POST_CURRENT_AMOUNT = '/api/currentAmount';
+  static POST_SELL_API = '/api/sell';
 }

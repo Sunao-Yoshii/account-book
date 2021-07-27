@@ -18,17 +18,33 @@ class defaults {
   updatedAt = currentDate();
 }
 
+function isNullOrUndef(v) {
+  return v === null || v === undefined;
+}
+
 class Purchase {
   constructor(option) {
     const defs = new defaults();
     this.id = option.id || defs.id;
     this.brandId = option.brandId || defs.brandId;
     this.buyAmount = option.buyAmount || defs.buyAmount;
-    this.currentValuation = option.currentValuation || option.buyAmount || defs.currentValuation;
+    this.currentValuation = isNullOrUndef(option.currentValuation) ? (option.buyAmount || defs.currentValuation) : option.currentValuation;
     this.isClosed = option.isClosed || defs.isClosed;
     this.createdAt = option.createdAt || defs.createdAt;
     this.updatedAt = option.updatedAt || defs.updatedAt;
   }
+}
+
+function toPurchase(row) {
+  return new Purchase({
+    id: row['id'],
+    brandId: row['brand_id'],
+    buyAmount: row['buy_amount'],
+    currentValuation: row['current_valuation'],
+    isClosed: row['is_closed'],
+    createdAt: row['created_at'],
+    updatedAt: row['updated_at']
+  });
 }
 
 class PurchaseTable {
@@ -118,6 +134,64 @@ class PurchaseTable {
   }
 
   /**
+   * @param {string} purchaseId
+   * @returns {Array}
+   */
+  static async selectById(purchaseId) {
+    return new Promise((resolve, reject) => {
+      const db = DBCommon.get();
+      try {
+        const result = [];
+        db.serialize(() => {
+          db.all(
+            `select * from ${TABLE_NAME} where id = $purchaseId`,
+            parseInt(purchaseId),
+            (err, res) => {
+              if (err) return reject(err);
+              if (!res) return resolve([]);
+              res.forEach(row => {
+                result.push(toPurchase(row));
+              });
+              return resolve(result);
+            }
+          )
+        })
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /**
+   * @param {integer} brandId 
+   * @returns {Array}
+   */
+  static async selectLatestByBrand(brandId) {
+    return new Promise((resolve, reject) => {
+      const db = DBCommon.get();
+      try {
+        const result = [];
+        db.serialize(() => {
+          db.all(
+            `select * from ${TABLE_NAME} where brand_id = $brandId and is_closed is null order by created_at desc limit 1`,
+            brandId,
+            (err, res) => {
+              if (err) return reject(err);
+              if (!res) return resolve([]);
+              res.forEach(row => {
+                result.push(toPurchase(row));
+              });
+              return resolve(result);
+            }
+          )
+        })
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /**
    * @param {integer} brandId 
    * @returns {Array}
    */
@@ -133,16 +207,9 @@ class PurchaseTable {
             (err, res) => {
               if (err) return reject(err);
               if (!res) return resolve([]);
+
               res.forEach(row => {
-                result.push(new Purchase({
-                  id: row['id'],
-                  brandId: row['brand_id'],
-                  buyAmount: row['buy_amount'],
-                  currentValuation: row['current_valuation'],
-                  isClosed: row['is_closed'],
-                  createdAt: row['created_at'],
-                  updatedAt: row['updated_at']
-                }))
+                result.push(toPurchase(row));
               });
               return resolve(result);
             }
