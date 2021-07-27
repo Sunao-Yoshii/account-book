@@ -40,6 +40,6 @@
     <purchase-update-form edit-target={editTarget} onclose={handleClose} onupdate={handleUpdate}></purchase-update-form>
   </template>
   <template if:true={isShowSellForm}>
-    <purchase-sell-form target-purchase={editTarget} onclose={handleClose}></purchase-sell-form>
+    <purchase-sell-form target-purchase={editTarget} onclose={handleClose} onupdate={handleUpdate}></purchase-sell-form>
   </template>
 </template>

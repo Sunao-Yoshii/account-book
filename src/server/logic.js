@@ -111,15 +111,13 @@ class AssetsLogic {
       // 売却予定の購入履歴を取得
       let target = await PurchaseTable.selectById(values.purchaseId);
       if (!target || target.length === 0) {
-        reject(new Error('対象の購入履歴が見つかりませんでした'));
-        return;
+        return reject(new Error('対象の購入履歴が見つかりませんでした'));
       }
 
       // 端数を適用する購入履歴を取得
       let applyTarget = await PurchaseTable.selectLatestByBrand(target[0].brandId);
       if (!applyTarget || applyTarget.length === 0) {
-        reject(new Error('差額の適用先がありません'));
-        return;
+        return reject(new Error('差額の適用先がありません'));
       }
 
       // 端数金額を計算
@@ -146,6 +144,7 @@ class AssetsLogic {
           await PurchaseTable.update(applyValue);
         }
         db.exec('commit');
+        return resolve({ success: true });
       } catch (error) {
         console.log(error);
         db.exec('rollback');

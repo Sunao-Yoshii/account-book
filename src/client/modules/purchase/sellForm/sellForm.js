@@ -34,11 +34,13 @@ export default class SellForm extends CssCommonElement {
         amount: sellAmount
       };
       await Ajax.post(Endpoints.POST_SELL_API, request);
+      this.dispatchEvent(new CustomEvent('update'));
+      console.log('Is finished!!')
+      return;
     } catch (error) {
       alert(error);
       console.log(error);
     }
-
     this.dispatchEvent(new CustomEvent('close'));
   }
 }

@@ -31,6 +31,9 @@ export class Ajax {
       const req = new XMLHttpRequest();
       req.open('GET', url, true);
       req.onload = () => {
+        if (!req.responseText) {
+          resolve([]);
+        }
         if (req.status >= 200 && req.status < 300) {
           resolve(JSON.parse(req.responseText));
         } else {
