@@ -18,10 +18,11 @@ export default class UpdateForm extends CssCommonElement {
   async onSubmit(event) {
     let idVal = this.editTarget.id;
     let currentVal = this.template.querySelector('input[name="amount"]').value;
+    let unitVal = this.template.querySelector('input[name="unit"]').value;
     let url = Endpoints.UPDATE_PURCHASES + idVal;
 
     try {
-      await Ajax.post(url, { isClosed: null, currentValuation: currentVal, id: idVal });
+      await Ajax.post(url, { isClosed: null, currentValuation: currentVal, unit: unitVal, id: idVal });
       this.dispatchEvent(new CustomEvent('update'));
     } catch (error) {
       console.log(error);

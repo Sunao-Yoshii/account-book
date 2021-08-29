@@ -12,6 +12,7 @@ class defaults {
   id = null;
   brandId = null;
   buyAmount = 0;
+  unit = 0;
   currentValuation = 0;
   isClosed = null;
   createdAt = currentDate();
@@ -28,6 +29,7 @@ class Purchase {
     this.id = option.id || defs.id;
     this.brandId = option.brandId || defs.brandId;
     this.buyAmount = option.buyAmount || defs.buyAmount;
+    this.unit = option.unit || defs.unit;
     this.currentValuation = isNullOrUndef(option.currentValuation) ? (option.buyAmount || defs.currentValuation) : option.currentValuation;
     this.isClosed = option.isClosed || defs.isClosed;
     this.createdAt = option.createdAt || defs.createdAt;
@@ -40,6 +42,7 @@ function toPurchase(row) {
     id: row['id'],
     brandId: row['brand_id'],
     buyAmount: row['buy_amount'],
+    unit: row['unit'],
     currentValuation: row['current_valuation'],
     isClosed: row['is_closed'],
     createdAt: row['created_at'],
@@ -57,6 +60,7 @@ class PurchaseTable {
             id integer primary key AUTOINCREMENT,
             brand_id integer not null,
             buy_amount integer not null,
+            unit integer not null default 0,
             current_valuation integer not null,
             is_closed integer default null,
             created_at timestamp not null,
@@ -79,9 +83,9 @@ class PurchaseTable {
       const db = DBCommon.get();
       try {
         db.run(
-          `insert into ${TABLE_NAME} (brand_id, buy_amount, current_valuation, created_at, updated_at) 
-           values ($brandId, $buyAmount, $currentValuation, $createdAt, $updatedAt)`,
-          purchase.brandId, purchase.buyAmount, purchase.currentValuation, purchase.createdAt, purchase.updatedAt
+          `insert into ${TABLE_NAME} (brand_id, buy_amount, unit, current_valuation, created_at, updated_at) 
+           values ($brandId, $buyAmount, $unit, $currentValuation, $createdAt, $updatedAt)`,
+          purchase.brandId, purchase.buyAmount, purchase.unit, purchase.currentValuation, purchase.createdAt, purchase.updatedAt
         )
         return resolve()
       } catch (error) {
@@ -98,8 +102,8 @@ class PurchaseTable {
       const db = DBCommon.get();
       try {
         db.run(
-          `update ${TABLE_NAME} set current_valuation = $currentValuation,  is_closed = $isClosed, updated_at = $updatedAt where id = $id`,
-          purchase.currentValuation, purchase.isClosed, purchase.updatedAt, purchase.id
+          `update ${TABLE_NAME} set current_valuation = $currentValuation, unit = $unit, is_closed = $isClosed, updated_at = $updatedAt where id = $id`,
+          purchase.currentValuation, purchase.unit, purchase.isClosed, purchase.updatedAt, purchase.id
         )
         return resolve()
       } catch (error) {
@@ -242,6 +246,7 @@ class PurchaseTable {
                   id: row['id'],
                   brandId: row['brand_id'],
                   buyAmount: row['buy_amount'],
+                  unit: row['unit'],
                   currentValuation: row['current_valuation'],
                   isClosed: row['is_closed'],
                   createdAt: row['created_at'],

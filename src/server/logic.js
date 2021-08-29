@@ -71,28 +71,33 @@ class AssetsLogic {
         db.exec('begin');
         // 関連するブランドの購入記録のうち、売却していない資産をロードする。
         const allPurchases = await PurchaseTable.selectNotClosed(values.brandId);
+
         // id => 資産価値 のマップ作製
-        let idAmount = [];
-        let totalAmount = 0;
+        let idUnits = [];
+        let totalUnits = 0;
         allPurchases.forEach(v => {
-          const cur = v.currentValuation;
-          idAmount.push({ purchaseId: v.id, lastAmount: cur });
-          totalAmount += cur;
+          if (!v.unit || v.unit <= 0) return;
+          idUnits.push({ purchaseId: v.id, lastUnit: v.unit });
+          totalUnits += v.unit;
         });
-        // 最新の金額から、各行の現在資産額を割合計算する
-        idAmount.forEach(v => {
-          const latestAmount = parseInt((v.lastAmount / totalAmount) * values.amount);
+
+        if (idUnits.length <= 0) return;
+
+        // 口数から、各行の現在資産額を割合計算する
+        idUnits.forEach(v => {
+          const latestAmount = parseInt((v.lastUnit / totalUnits) * values.amount);
           v.currentAmount = latestAmount;
-          v.createdAt = values.createdAt;
           v.id = v.purchaseId;
-          v.currentValuation = v.currentAmount;
+          v.currentValuation = latestAmount;
+          v.unit = v.lastUnit;
           v.isClosed = null;
+          v.createdAt = values.createdAt;
           v.updatedAt = values.createdAt;
         });
         
         // トランザクション開始
-        await AmountLogTable.inserts(idAmount);  // ログ追加
-        await PurchaseTable.updates(idAmount);  // 各購入行の資産価値更新
+        await AmountLogTable.inserts(idUnits);  // ログ追加
+        await PurchaseTable.updates(idUnits);  // 各購入行の資産価値更新
         db.exec('commit');
         return resolve();
       } catch (error) {

@@ -11,6 +11,7 @@ function twoDigit(value) {
 export default class Lists extends CssCommonElement {
   errorMessage = null;
   amount;
+  unit;
   selectedDate;
   @api brandId;
 
@@ -24,6 +25,7 @@ export default class Lists extends CssCommonElement {
     const month = twoDigit(today.getMonth() + 1);
     const day = twoDigit(today.getDate());
     this.amount = 0;
+    this.unit = 0;
     this.selectedDate = `${today.getFullYear()}-${month}-${day}`;
   }
 
@@ -44,9 +46,11 @@ export default class Lists extends CssCommonElement {
 
   async handleSave() {
     const amountInput = this.template.querySelector('input[name="buyAmount"]');
+    const unitInput = this.template.querySelector('input[name="units"]');
     const dateInput = this.template.querySelector('input[name="buyDate"]');
     const data = {
       amount: amountInput.value,
+      unit: unitInput.value,
       dateValue: dateInput.value
     };
     if (!this.isValid(data)) {
@@ -57,6 +61,7 @@ export default class Lists extends CssCommonElement {
     let save = {
       brandId: this.brandId,
       buyAmount: data.amount,
+      units: data.unit,
       currentValuation: data.amount,
       createdAt: dateVal.getTime(),
       updatedAt: dateVal.getTime()

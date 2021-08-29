@@ -16,7 +16,6 @@ export default class Form extends CssCommonElement {
 
   async handleSubmit() {
     const amountInput = this.template.querySelector('input[name="currentAmount"]');
-    this.currentAmount = 0;
     const date = Date.now();
 
     const requestBody = {
@@ -27,7 +26,6 @@ export default class Form extends CssCommonElement {
 
     try {
       await Ajax.post(Endpoints.POST_CURRENT_AMOUNT, requestBody);
-      this.currentAmount = 0;
       this.dispatchEvent(new CustomEvent('saved'));
     } catch (error) {
       this.errorMessage = JSON.stringify(error);

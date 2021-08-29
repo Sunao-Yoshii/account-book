@@ -14,6 +14,10 @@
       
       <form action="#" method="get" onsubmit={suspendEvent}>
         <div class="mb-3">
+          <label for="unit" class="form-label">口数</label>
+          <input type="number" name="unit" id="unit" class="form-control" min="0" value={editTarget.unit} />
+        </div>
+        <div class="mb-3">
           <label for="amount" class="form-label">資産価値</label>
           <input type="number" name="amount" id="amount" class="form-control" min="0" value={editTarget.currentValuation} />
         </div>
