@@ -48,6 +48,17 @@ app.get('/api/brands', async (req, res) => {
   }
 });
 
+app.post('/api/brand/:id', async (req, res) => {
+  try {
+    const id = req.params['id'];
+    const value = Object.assign({ id: id }, req.body);
+    await BrandTable.update(value);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Has error!' });
+  }
+});
+
 app.post('/api/brands', async (req, res) => {
   try {
     await BrandTable.insert(req.body);

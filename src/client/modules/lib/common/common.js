@@ -103,6 +103,7 @@ export class Endpoints {
   static GET_ALL_BRANDS = '/api/brands';
   static POST_CREATE_BRAND = Endpoints.GET_ALL_BRANDS;
   static GET_SINGLE_BRAND = '/api/brand/';
+  static UPDATE_SINGLE_BRAND = Endpoints.GET_SINGLE_BRAND;
   static DELETE_SINGLE_BRAND = Endpoints.GET_SINGLE_BRAND;
   static GET_PURCHASES = '/api/purchase/';
   static UPDATE_PURCHASES = '/api/purchase/';

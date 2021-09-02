@@ -6,6 +6,8 @@ function toDateStr(millisec) {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
+const SELL_RATE = 1.25;
+
 export default class Lists extends CssCommonElement {
   @track internalList = [];
   @api get purchaseList() {
@@ -19,7 +21,7 @@ export default class Lists extends CssCommonElement {
     let nlist = [];
     value.forEach(v => {
       let cpy = Object.assign({}, v);
-      cpy.targetAmount = cpy.buyAmount * 1.2;
+      cpy.targetAmount = cpy.buyAmount * SELL_RATE;
       cpy.createdDate = toDateStr(cpy.createdAt);
       cpy.updatedDate = toDateStr(cpy.updatedAt);
       nlist.push(cpy);

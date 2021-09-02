@@ -32,11 +32,20 @@ export default class App extends CssCommonElement {
     }
   }
 
-  handleReset() {
+  async handleRefresh() {
+    const brandId = this.selectedBrandId;
+    console.log(Object.assign({}, brandId));
+
+    this.errorMessage = null;
+    this.isShowBrandForm = false;
+    await this.handleReset();
+  }
+
+  async handleReset() {
     this.errorMessage = null;
     this.selectedBrandId = null;
-    this.loadBrands();
     this.isShowBrandForm = false;
+    this.loadBrands();
   }
 
   onSelect(event) {

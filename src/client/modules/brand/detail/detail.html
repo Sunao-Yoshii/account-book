@@ -1,19 +1,42 @@
 <template>
   <template if:true={brand}>
-    <table class="table table-striped">
-      <tr>
-        <th>ID</th>
-        <td>{brand.id}</td>
-      </tr>
-      <tr>
-        <th>名称</th>
-        <td>{brand.name}</td>
-      </tr>
-      <tr>
-        <th>説明</th>
-        <td>{brand.description}</td>
-      </tr>
-    </table>
-    <button type="button" class="btn btn-danger" onclick={handleDelete}>削除</button>
+    <template if:true={isView}>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th>
+          <td>{brand.id}</td>
+        </tr>
+        <tr>
+          <th>名称</th>
+          <td>{brand.name}</td>
+        </tr>
+        <tr>
+          <th>説明</th>
+          <td>{brand.description}</td>
+        </tr>
+      </table>
+      <button type="button" class="btn btn-primary" onclick={handleModeChange} data-view-mode="false">編集</button>&nbsp;
+      <button type="button" class="btn btn-danger" onclick={handleDelete}>削除</button>
+    </template>
+
+    <template if:false={isView}>
+      <table class="table table-striped">
+        <tr>
+          <th>ID</th>
+          <td>{brand.id}</td>
+        </tr>
+        <tr>
+          <th><label for="brand_name" class="form-label">名称</label></th>
+          <td><input type="text" name="brand_name" id="brand_name" value={brand.name} class="form-control" /></td>
+        </tr>
+        <tr>
+          <th><label for="description" class="form-label">説明</label></th>
+          <td><textarea class="form-control" name="description" id="description" cols="30" rows="10">{brand.description}</textarea></td>
+        </tr>
+      </table>
+      <button type="button" class="btn btn-cancel" onclick={handleModeChange} data-view-mode="true">参照</button>&nbsp;
+      <button type="button" class="btn btn-primary" onclick={handleSave}>更新</button>
+    </template>
+
   </template>
 </template>
