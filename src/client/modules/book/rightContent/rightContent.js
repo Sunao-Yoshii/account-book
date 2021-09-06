@@ -16,6 +16,7 @@ export default class RightContent extends CssCommonElement {
   @track purchaseList = [];
   brand;
   currentTotalAmount = 0;
+  currentTotalItems = 0;
   errorMessage;
 
   constructor() {
@@ -51,13 +52,16 @@ export default class RightContent extends CssCommonElement {
       this.brand = brands[0];
 
       let tempAmount = 0;
+      let tempCount = 0;
       const data = await Ajax.get(Endpoints.GET_PURCHASES + this._setBrandId);
       data.forEach(v => {
         v.targetAmount = v.buyAmount * 1.2;
         tempAmount += v.currentValuation;
+        tempCount += v.isClosed ? 0 : v.unit;
       });
       this.purchaseList = data;
       this.currentTotalAmount = tempAmount;
+      this.currentTotalItems = tempCount;
 
       this.errorMessage = null;
     } catch (error) {

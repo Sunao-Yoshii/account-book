@@ -7,7 +7,7 @@
     <brand-detail brand={brand} onremove={handleRemove}></brand-detail>
     <hr>
     <h3>最新の合計資産価値</h3>
-    <amount-form brand-id={selectedId} default-amount={currentTotalAmount} onsaved={handleSubmit}></amount-form>
+    <amount-form brand-id={selectedId} default-amount={currentTotalAmount} current-total-items={currentTotalItems} onsaved={handleSubmit}></amount-form>
     <hr>
     <h3>購入記録</h3>
     <purchase-list purchase-list={purchaseList} onupdated={handleSubmit}></purchase-list>

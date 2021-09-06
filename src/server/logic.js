@@ -16,6 +16,7 @@ function currentDate() {
 class CurrentAmountDefault {
   brandId = 0;
   amount = 0;
+  items = 0;
   createdAt = currentDate();
 }
 
@@ -24,6 +25,7 @@ class CurrentAmount {
     const defaults = new CurrentAmountDefault();
     this.brandId = option.brandId || defaults.brandId;
     this.amount = option.amount || defaults.amount;
+    this.items = option.items || defaults.items;
     this.createdAt = option.createdAt || defaults.createdAt;
   }
 }
@@ -86,10 +88,11 @@ class AssetsLogic {
         // 口数から、各行の現在資産額を割合計算する
         idUnits.forEach(v => {
           const latestAmount = parseInt((v.lastUnit / totalUnits) * values.amount);
+          const latestUnit = parseInt((v.lastUnit / totalUnits) * values.items);
           v.currentAmount = latestAmount;
           v.id = v.purchaseId;
           v.currentValuation = latestAmount;
-          v.unit = v.lastUnit;
+          v.unit = latestUnit;
           v.isClosed = null;
           v.createdAt = values.createdAt;
           v.updatedAt = values.createdAt;

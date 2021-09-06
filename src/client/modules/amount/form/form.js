@@ -3,6 +3,7 @@ import { api } from 'lwc';
 
 export default class Form extends CssCommonElement {
   @api brandId;
+  @api currentTotalItems;
   @api get defaultAmount() {
     return this._internalAmount;
   }
@@ -16,11 +17,13 @@ export default class Form extends CssCommonElement {
 
   async handleSubmit() {
     const amountInput = this.template.querySelector('input[name="currentAmount"]');
+    const countInput = this.template.querySelector('input[name="currentTotalItems"]');
     const date = Date.now();
 
     const requestBody = {
       brandId: this.brandId,
       amount: amountInput.value,
+      items: countInput.value,
       createdAt: date
     };
 

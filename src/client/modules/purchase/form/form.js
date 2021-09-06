@@ -61,7 +61,7 @@ export default class Lists extends CssCommonElement {
     let save = {
       brandId: this.brandId,
       buyAmount: data.amount,
-      units: data.unit,
+      unit: data.unit,
       currentValuation: data.amount,
       createdAt: dateVal.getTime(),
       updatedAt: dateVal.getTime()
