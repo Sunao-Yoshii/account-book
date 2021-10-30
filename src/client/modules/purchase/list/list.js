@@ -24,6 +24,10 @@ export default class Lists extends CssCommonElement {
       cpy.targetAmount = cpy.buyAmount * SELL_RATE;
       cpy.createdDate = toDateStr(cpy.createdAt);
       cpy.updatedDate = toDateStr(cpy.updatedAt);
+      cpy.valuationGain = cpy.currentValuation - cpy.buyAmount;
+      cpy.gainPercent = Math.round((cpy.currentValuation / cpy.buyAmount) * 10000) / 100;
+      cpy.gainRate = Math.round((cpy.valuationGain / cpy.buyAmount) * 10000) / 100;
+      cpy.style = cpy.valuationGain > 0 ? 'text-success' : 'text-danger';
       nlist.push(cpy);
     });
     this.internalList = nlist;
