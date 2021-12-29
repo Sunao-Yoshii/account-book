@@ -30,3 +30,7 @@ $RECYCLE.BIN/
 
 # Husky
 .husky
+
+# Copy dataset
+src/bootstrap/*
+src/bootstrap-icons/*

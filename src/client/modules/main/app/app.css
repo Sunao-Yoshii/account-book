@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "bootstrap-icons";
+  src: url("/bootstrap-icons/font/fonts/bootstrap-icons.woff2?30af91bf14e37666a085fb8a161ff36d") format("woff2"),
+       url("/bootstrap-icons/font/fonts/bootstrap-icons.woff?30af91bf14e37666a085fb8a161ff36d") format("woff");
+}
+
+.main-container {
+  display:flex;
+  flex-direction:row;
+  height: 100%;
+}
+
+.left-sidebar {
+  flex-basis:400px;
+  border-right: solid;
+  border-right-color: #333;
+  border-right-width: 1px;
+  height: 100%;
+  padding: 0.5rem;
+}
+
+.left-sidebar > .list-group {
+  margin-bottom: 1rem;
+}
+
+.sub {
+  padding-left: 2rem;
+}

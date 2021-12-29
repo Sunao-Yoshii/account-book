@@ -1,7 +1,7 @@
 
 import { createElement } from 'lwc';
-import MyApp from 'my/app';
+import MyApp from 'main/app';
 
-const app = createElement('my-app', { is: MyApp });
+const app = createElement('main-app', { is: MyApp });
 // eslint-disable-next-line @lwc/lwc/no-document-query
 document.querySelector('#main').appendChild(app);

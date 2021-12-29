@@ -3,6 +3,8 @@
     "version": "0.0.1",
     "bugs": "https://github.com/account-book/issues",
     "dependencies": {
+        "bootstrap": "^5.1.3",
+        "bootstrap-icons": "^1.7.2",
         "compression": "^1.7.4",
         "express": "^4.17.2",
         "helmet": "^4.6.0"
