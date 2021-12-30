@@ -1,0 +1,30 @@
+<template>
+  <components-card title="設定" subtitle="アプリケーション動作設定">
+    <slot>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <components-inputNumber label="基本積み立て金額"
+              value={reserveAmount} placeholder="100000" min='0'></components-inputNumber>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <components-inputNumber label="税率"
+              value={taxRate} placeholder="20" min='0' step='0.1'></components-inputNumber>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <components-inputNumber label="基本分割期間(月)"
+              value={splitInvestMonths} placeholder="120" min='0' step='1'></components-inputNumber>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <components-inputNumber label="目標売却益"
+              value={sellRate} placeholder="20" min='0' step='0.1'></components-inputNumber>
+            </div>
+        </div>
+        <!--  Button をここに -->
+        <div style="text-align: right;">
+          <components-button label='更新' variant='primary' is-outline='true'></components-button>
+        </div>
+      </div>
+    </slot>
+  </components-card>
+</template>

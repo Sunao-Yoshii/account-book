@@ -12,6 +12,7 @@
 
 .left-sidebar {
   flex-basis:400px;
+  background-color: #ddd;
   border-right: solid;
   border-right-color: #333;
   border-right-width: 1px;
@@ -21,6 +22,12 @@
 
 .left-sidebar > .list-group {
   margin-bottom: 1rem;
+}
+
+.main-content {
+  width: 100%;
+  padding: 1rem;
+  background-color: #ddd;
 }
 
 .sub {

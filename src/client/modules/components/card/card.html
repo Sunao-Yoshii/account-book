@@ -1,0 +1,11 @@
+<template>
+  <div class="card" style={cssStyle}>
+    <div class="card-header">
+      <h5 class="card-title" if:true={title}>{title}</h5>
+      <h6 class="card-subtitle mb-2 text-muted" if:true={subtitle}>{subtitle}</h6>
+    </div>
+    <div class="card-body">
+      <slot></slot>
+    </div>
+  </div>
+</template>

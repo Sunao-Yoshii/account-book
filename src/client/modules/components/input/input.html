@@ -1,0 +1,6 @@
+<template>
+  <div class="mb-3">
+    <label for="inputField" class="form-label" if:true={label}>{label}</label>
+    <input type={type} class="form-control" id="inputField" placeholder={placeholder} value={value} disabled={disabled} onchange={onChange} />
+  </div>
+</template>

@@ -34,3 +34,7 @@ $RECYCLE.BIN/
 # Copy dataset
 src/bootstrap/*
 src/bootstrap-icons/*
+
+# IDE resource
+.vscode/
+*.code-workspace

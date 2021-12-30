@@ -7,11 +7,15 @@ export default class App extends CssCommonElement {
 
   mode = MODE_DASHBOARD;
 
+  get showConfig() {
+    return this.mode === MODE_CONFIG;
+  }
+
   clickDashbord() {
     this.mode = MODE_DASHBOARD;
   }
 
   clickConfig() {
-    mode = MODE_CONFIG;
+    this.mode = MODE_CONFIG;
   }
 }

@@ -1,0 +1,15 @@
+<template>
+  <div class="mb-3">
+    <label for="inputField" class="form-label" if:true={label}>{label}</label>
+    <input id="inputField" type='number' class="form-control"
+      style={cssStyle}
+      placeholder={placeholder}
+      value={value}
+      disabled={disabled}
+      max={max}
+      min={min}
+      step={step}
+      readonly={readOnly}
+      onchange={onChange} />
+  </div>
+</template>
