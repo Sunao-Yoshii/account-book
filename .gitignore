@@ -38,3 +38,6 @@ src/bootstrap-icons/*
 # IDE resource
 .vscode/
 *.code-workspace
+
+# database
+*.sqlite3

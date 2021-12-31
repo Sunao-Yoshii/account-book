@@ -1,0 +1,6 @@
+<template>
+  <div class={cssClass} role="alert" if:true={display}>
+    <slot></slot>
+    <button id="close" type="button" class="btn-close float-right" data-bs-dismiss="alert" aria-label="Close" if:false={hideDismiss} onclick={onClickHide}></button>
+  </div>
+</template>

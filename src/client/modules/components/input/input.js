@@ -10,6 +10,8 @@ export default class Input extends CssCommonElement {
   @api placeholder = null;
 
   onChange(event) {
+    console.log('OnChange===');
+    console.log(event.target);
     this.dispatchEvent(new CustomEvent('change', { detail: event.target.value }));
   }
 }
