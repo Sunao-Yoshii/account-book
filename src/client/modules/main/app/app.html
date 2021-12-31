@@ -2,11 +2,15 @@
   <div class="main-container">
     <div class="left-sidebar">
       <div class="list-group">
-        <a href="#" class="list-group-item" onclick={clickDashbord}>ダッシュボード</a>
+        <a href="#" class="list-group-item" onclick={clickDashboard}>ダッシュボード</a>
       </div>
       <div class="list-group">
         <span class="list-group-item">銘柄</span>
-        <a href="#" class="list-group-item sub">
+        <template for:each={allBrands} for:item="item">
+          <a key={item.id} href="#" class="list-group-item" style="padding-left: 2rem;" data-id={item.id}
+            onclick={clickBrandName}>{item.name}</a>
+        </template>
+        <a href="#" class="list-group-item sub" onclick={clickAddBrand}>
           <img src="/bootstrap-icons/icons/plus-circle.svg" alt="Bootstrap" width="14" height="14"> 銘柄追加
         </a>
       </div>
@@ -18,8 +22,13 @@
       </div>
     </div>
     <div class="main-content">
-      <div class="content-area" if:true={showConfig}>
-        <pages-config></pages-config>
+      <div class="content-area">
+        <components-alert if:true={errorMessage} variant='danger'>
+          <slot>{errorMessage}</slot>
+        </components-alert>
+        <pages-config if:true={showConfig}></pages-config>
+        <pages-addBrand if:true={showCreateBrand} onaddbrand={handleBrandCreated}></pages-addBrand>
+        <pages-showBrand if:true={showBrand} brand-id={showBrandId}></pages-showBrand>
       </div>
     </div>
   </div>

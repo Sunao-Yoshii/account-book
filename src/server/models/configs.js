@@ -37,14 +37,11 @@ class AppConfig {  // js に型はいう程意味ないけど、気分かな
 class AppConfigTable {
 
   /**
-   * @param {AppConfig} brand 
+   * @param {sqlite3.Database} brand 
    */
   static async upsert(config, db = DBCommon.get()) {
     try {
       const current = await AppConfigTable.select();
-      console.log('upsert====');
-      console.log(config);
-      console.log(current);
       if (!current) {
         db.run(
           `insert into ${TABLE_NAME} (reserve_amount, tax_rate, gain_rate, split_invest_months) values ($reserve_amount, $tax_rate, $gain_rate, $split_invest_months)`,
@@ -58,13 +55,14 @@ class AppConfigTable {
       }
       return true;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
 
   /**
    * 既存の設定を検索する
-   * @param {DBCommon} db 
+   * @param {sqlite3.Database} db 
    * @returns 
    */
   static async select(db = DBCommon.get()) {

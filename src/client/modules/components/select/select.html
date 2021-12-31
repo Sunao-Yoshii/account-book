@@ -1,0 +1,10 @@
+<template>
+  <div class="mb-3">
+    <label class="form-label" if:true={label}>{label}</label>
+    <select class="form-select" aria-label="Default select example" onchange={onChange}>
+      <template for:each={optionValues} for:item="item">
+        <option key={item.id} value={item.value} selected={item.isSelected}>{item.label}</option>
+      </template>
+    </select>
+  </div>
+</template>

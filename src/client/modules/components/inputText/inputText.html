@@ -1,0 +1,13 @@
+<template>
+  <div class="mb-3">
+    <label for="inputField" class="form-label" if:true={label}>{label}</label>
+    <input type='text' class="form-control"
+      placeholder={placeholder} value={value}
+      maxlength={maxLength} minlength={minLength} pattern={pattern}
+      disabled={disabled} onchange={onChange} if:true={pattern} />
+    <input type='text' class="form-control"
+      placeholder={placeholder} value={value}
+      maxlength={maxLength} minlength={minLength}
+      disabled={disabled} onchange={onChange} if:false={pattern} />
+  </div>
+</template>

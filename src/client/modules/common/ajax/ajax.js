@@ -1,3 +1,24 @@
+function jsonSending(method, url, sendBody) {
+  return new Promise((resolve, reject) => {
+    let req = new XMLHttpRequest();
+    req.open(method, url);
+    req.onload = function() {
+      if (req.status === 200) {
+        resolve(JSON.parse(req.responseText));
+      } else {
+        window.console.log(req);
+        reject(new Error(req.statusText));
+      }
+    };
+    req.onerror = function() {
+      window.console.log(req);
+      reject(new Error(req.statusText));
+    };
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.send(JSON.stringify(sendBody));
+  });
+}
+
 export default class Ajax {
 
   /**
@@ -30,23 +51,16 @@ export default class Ajax {
    * @returns Promise(String)
    */
   static async post(url, sendBody) {
-    return new Promise((resolve, reject) => {
-      let req = new XMLHttpRequest();
-      req.open('POST', url);
-      req.onload = function() {
-        if (req.status === 200) {
-          resolve(JSON.parse(req.responseText));
-        } else {
-          window.console.log(req);
-          reject(new Error(req.statusText));
-        }
-      };
-      req.onerror = function() {
-        window.console.log(req);
-        reject(new Error(req.statusText));
-      };
-      req.setRequestHeader('Content-Type', 'application/json');
-      req.send(JSON.stringify(sendBody));
-    });
+    return jsonSending('POST', url, sendBody);
+  }
+
+  /**
+   * HTTP PUT request.
+   * @param {String} url
+   * @param {String} sendBody
+   * @returns Promise(String)
+   */
+   static async put(url, sendBody) {
+    return jsonSending('PUT', url, sendBody);
   }
 }
