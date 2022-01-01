@@ -3,11 +3,11 @@
     <thead>
       <tr>
         <th class="col">投資金額</th>
+        <th class="col">損益</th>
         <th class="col">株数</th>
-        <th class="col">投資日</th>
         <th class="col">時価(%)</th>
         <th class="col">目標売上金額</th>
-        <th class="col">損益</th>
+        <th class="col">投資日</th>
         <th class="col">最終更新日</th>
         <th class="col">編集</th>
       </tr>
@@ -17,10 +17,10 @@
         <tr key={item.key}>
           <th class="col">{item.amount}</th>
           <th class="col"></th>
+          <th class="col">{item.stocks}</th>
           <th class="col"></th>
-          <th class="col"></th>
-          <th class="col"></th>
-          <th class="col"></th>
+          <th class="col">{item.targetAmount}</th>
+          <th class="col">{item.purchaseDate}</th>
           <th class="col"></th>
           <th class="col"></th>
         </tr>

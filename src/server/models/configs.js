@@ -3,27 +3,6 @@ const TABLE_NAME = 'config';
 
 const DBCommon = common.DBCommon;
 
-function createTable() {  // テーブルが無ければ作る処理
-  const db = DBCommon.get();
-  return new Promise((resolve, reject) => {
-    try {
-      db.serialize(() => {
-        db.run(`create table if not exists ${TABLE_NAME} (
-          id integer primary key AUTOINCREMENT,
-          reserve_amount integer not null default 0,
-          tax_rate real not null default 20,
-          gain_rate real not null default 20,
-          split_invest_months integer default 120
-        )`)
-      });
-      return resolve()
-    } catch (error) {
-      return reject(error);
-    }
-  });
-}
-createTable();
-
 class AppConfig {  // js に型はいう程意味ないけど、気分かな
   constructor(id, reserveAmount, taxRate, gainRate, splitInvestMonths) {
     this.id = id;
@@ -95,6 +74,53 @@ class AppConfigTable {
     });
   }
 }
+
+function createTable() {  // テーブルが無ければ作る処理
+  const db = DBCommon.get();
+  return new Promise((resolve, reject) => {
+    try {
+      db.serialize(() => {
+        db.run(`create table if not exists ${TABLE_NAME} (
+          id integer primary key AUTOINCREMENT,
+          reserve_amount integer not null default 0,
+          tax_rate real not null default 20,
+          gain_rate real not null default 20,
+          split_invest_months integer default 120
+        )`);
+
+        // データが存在していれば読み込む
+        let current = null;
+        db.all(
+          `select id, reserve_amount, tax_rate, gain_rate, split_invest_months from ${TABLE_NAME} limit 1`,
+          (err, res) => {
+            if (err) { current = null; return; }
+            if (!res || res.length === 0) { current = null; return; }
+            const respond = res[0];
+            const result = new AppConfig(
+              respond['id'],
+              respond['reserve_amount'],
+              respond['tax_rate'],
+              respond['gain_rate'],
+              respond['split_invest_months']
+            );
+            current = result;
+          }
+        )
+
+        // データがなければ新規作成
+        if (!current) {
+          db.run(
+            `insert into ${TABLE_NAME} (reserve_amount, tax_rate, gain_rate, split_invest_months) values (100000, 20, 20, 120)`
+          );
+        }
+      });
+      return resolve()
+    } catch (error) {
+      return reject(error);
+    }
+  });
+}
+createTable();
 
 exports.AppConfig = AppConfig;
 exports.AppConfigTable = AppConfigTable;
