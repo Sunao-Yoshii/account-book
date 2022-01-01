@@ -2,6 +2,7 @@ import { CssCommonElement } from 'bootstrap/base';
 import { api } from 'lwc';
 import Constants from 'common/constants';
 import Brand from 'common/brand';
+import AppConfig from 'common/AppConfig';
 
 const brandPageButtons = [
   { id: 'edit', variant: 'primary', name: '編集', isOutline: false },
@@ -32,6 +33,7 @@ export default class ShowBrand extends CssCommonElement {
   errorMessage = null;
   state = 'show';
   showDeleteConfirm = false;
+  appConfig = {};
 
   /* 銘柄情報表示 */
   get title() {
@@ -95,6 +97,14 @@ export default class ShowBrand extends CssCommonElement {
   }
 
   /**
+   * 画面初期化時に、アプリケーション設定を読み込む
+   */
+  async loadConfig() {
+    const result = await AppConfig.getConfig();
+    this.appConfig = result;
+  }
+
+  /**
    * 非同期に銘柄情報を取得する
    * @param {String} id 
    */
@@ -128,6 +138,18 @@ export default class ShowBrand extends CssCommonElement {
       window.console.log(error);
       this.errorMessage = '';
     }
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.loadConfig();
+  }
+
+  handleCreatedInvestment() {
+    window.console.log('was it call?')
+    // リストを更新
+    const investList = this.template.querySelector('pages-investmentList');
+    investList.refresh();
   }
 
   handleEditCancel() {

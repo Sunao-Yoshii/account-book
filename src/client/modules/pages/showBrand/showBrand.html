@@ -9,6 +9,13 @@
         </div>
       </template>
       <components-buttonGroup buttons={buttonGroup} onclick={handleClickEditRemove}></components-buttonGroup>
+
+      <!-- 投資記録の新規作成 -->
+      <hr/>
+      <pages-investmentForm brand-id={brandId} oncreated={handleCreatedInvestment}></pages-investmentForm>
+      <!-- 投資記録リストの表示 -->
+      <hr/>
+      <pages-investmentList config={appConfig} brand-id={brandId}></pages-investmentList>
     </slot>
   </components-card>
   <components-modal title="削除確認"

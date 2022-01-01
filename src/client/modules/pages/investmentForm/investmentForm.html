@@ -1,0 +1,25 @@
+<template>
+  <template if:true={isShow}>
+    <components-button label='購入記録追加' variant='primary' is-outline='true' onclick={handleEdit}></components-button>
+  </template>
+  <template if:false={isShow}>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 col-md 6">
+          <components-input type='date' label='購入日' value={purchaseDate} data-role='purchaseDate' onchange={handleChange}></components-input>
+        </div>
+        <div class="col-sm-12 col-md 6">
+          <components-inputNumber label='購入金額' value={amount} data-role='amount' onchange={handleChange}></components-inputNumber>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md 6">
+          <components-inputNumber label='株数' value={stocks} onchange={handleChange}></components-inputNumber>
+        </div>
+        <div class="col-sm-12 col-md 6"></div>
+      </div>
+    </div>
+    <components-button label='キャンセル' variant='primary' is-outline='true' onclick={handleCancel}></components-button>&nbsp;
+    <components-button label='新規購入記録' variant='primary' onclick={handleSave}></components-button>
+  </template>
+</template>

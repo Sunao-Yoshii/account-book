@@ -6,6 +6,7 @@ const cors = require('cors');
 const common = require("./models/DBCommon");
 const configs = require('./models/configs');
 const brand = require('./models/brands');
+const invest = require('./models/investments');
 
 const app = express();
 app.use(helmet());
@@ -79,13 +80,64 @@ app.post('/api/v1/brand/:id', async (req, res) => {
 });
 
 app.delete('/api/v1/brand', async (req, res) => {
-  const id = req.query.id;
+  const id = req.params.id;
   try {
     if (id) {
       await brand.BrandTable.delete(id);
     }
     res.json({ status:'success' });
   } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'SomethingWrong!' });
+  }
+});
+
+app.get('/api/v1/brand/:id/investments', async (req, res) => {
+  console.log('get /api/v1/brand/:id/investments')
+  const id = req.params.id;
+  try {
+    res.json(await invest.InvestmentTable.selectByBrand(id));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'SomethingWrong!' });
+  }
+});
+
+app.put('/api/v1/brand/:id/investments', async (req, res) => {
+  console.log('get /api/v1/brand/:id/investments');
+  const id = req.params.id;
+  try {
+    let investment = req.body;
+    await invest.InvestmentTable.insert(investment);
+    res.json({ status: 'success' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'SomethingWrong!' });
+  }
+});
+
+app.post('/api/v1/brand/:brand/investments/:id', async (req, res) => {
+  console.log('post /api/v1/brand/:brand/investments/:id')
+  const id = req.params.id;
+  const brand = req.params.brand;
+  try {
+    let investment = req.body;
+    investment.brandId = id;
+    await invest.InvestmentTable.update(investment);
+    res.json({ status: 'success' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'SomethingWrong!' });
+  }
+});
+
+app.delete('/api/v1/brand/:brand/investments/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    await invest.InvestmentTable.updateAsSold(id);
+    res.json({ status: 'success' });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'SomethingWrong!' });
   }
 });
