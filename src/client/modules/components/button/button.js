@@ -8,7 +8,7 @@ export default class Button extends CssCommonElement {
 
   get cssClass() {
     const btnStyle =
-      'btn-' + (this.isOutline == true ? 'outline-' : '') + this.variant;
+      'btn-' + (this.isOutline ? 'outline-' : '') + this.variant;
     return 'btn ' + btnStyle;
   }
 }

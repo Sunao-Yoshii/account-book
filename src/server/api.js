@@ -67,6 +67,17 @@ app.put('/api/v1/brand', async (req, res) => {
   }
 });
 
+app.post('/api/v1/brand/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    await brand.BrandTable.update(id, req.body);
+    res.json({ status: 'success' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Something wrong!' });
+  }
+});
+
 app.delete('/api/v1/brand', async (req, res) => {
   const id = req.query.id;
   try {

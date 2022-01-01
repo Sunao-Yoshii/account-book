@@ -13,10 +13,6 @@ export default class AddBrand extends CssCommonElement {
   successMessage = null;
   errorMessage = null;
 
-  brandName = null;
-  brokerageAccount = selectable[0].value;
-  description = null;
-
   get accountTypes() {
     return selectable;
   }
@@ -30,7 +26,9 @@ export default class AddBrand extends CssCommonElement {
     this.successMessage = null;
     this.errorMessage = null;
     try {
-      let result = await Brand.insert(this.brandName, this.brokerageAccount, this.description);
+      const form = this.template.querySelector('pages-brandForm');
+      const formValue = form.getValues();
+      let result = await Brand.insert(formValue.brandName, formValue.brokerageAccount, formValue.description);
       this.successMessage = '保存に成功しました。';
       const id = result.id;
       this.dispatchEvent(new CustomEvent('addbrand', { detail: id }));

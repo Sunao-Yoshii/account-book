@@ -1,5 +1,24 @@
 <template>
   <components-card title={headerTitle} subtitle={description}>
-    <p>サンプルメッセージ</p>
+    <slot>
+      <template if:true={isEditMode}>
+        <pages-brandForm brand-name={title} brokerage-account={account} description={description}></pages-brandForm>
+        <div style="text-align: right;">
+          <components-button label='キャンセル' variant='primary' is-outline='true' onclick={handleEditCancel}></components-button>&nbsp;
+          <components-button label='更新' variant='primary' onclick={handleChange}></components-button>
+        </div>
+      </template>
+      <components-buttonGroup buttons={buttonGroup} onclick={handleClickEditRemove}></components-buttonGroup>
+    </slot>
   </components-card>
+  <components-modal title="削除確認"
+      buttons={deleteConfirmButtons} if:true={showDeleteConfirm}
+      onclose={handleDeleteConfirmClose} onselect={handleSelectDeleteConfirm}>
+    <slot>
+      <p>
+        <span>{headerTitle}</span> は一度削除すると戻すことはできません。<br />
+        本当に実行してよろしいですか？
+      </p>
+    </slot>
+  </components-modal>
 </template>

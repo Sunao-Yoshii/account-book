@@ -3,10 +3,7 @@
     <slot>
       <components-alert if:true={successMessage} variant='success'><slot>{successMessage}</slot></components-alert>
       <components-alert if:true={errorMessage} variant='danger'><slot>{errorMessage}</slot></components-alert>
-      
-      <components-inputText label="銘柄名" value={brandName} placeholder="例: ヴァンガード・トータル・ストック・マーケット・ファンド ETF" maxlength='512' data-role="brandName" onchange={handleChange}></components-inputText>
-      <components-select label="口座種別" value={brokerageAccount} options={accountTypes} data-role="brokerageAccount" onchange={handleChange}></components-select>
-      <components-textarea label="説明" value={description} data-role="description" onchange={handleChange}></components-textarea>
+      <pages-brandForm></pages-brandForm>
     </slot>
     <!--  Button をここに -->
     <div style="text-align: right;">

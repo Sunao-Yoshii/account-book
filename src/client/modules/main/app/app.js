@@ -60,7 +60,6 @@ export default class App extends CssCommonElement {
   }
 
   async handleBrandCreated(event) {
-    window.console.log('handleBrandCreated is called!!!!')
     await this.loadAllBrands();
     if (this.errorMessage) {
       return;

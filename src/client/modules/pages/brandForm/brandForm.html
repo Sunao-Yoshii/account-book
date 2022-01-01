@@ -1,0 +1,5 @@
+<template>
+  <components-inputText label="銘柄名" value={brandName} placeholder="例: ヴァンガード・トータル・ストック・マーケット・ファンド ETF" maxlength='512' data-role="brandName" onchange={handleChange}></components-inputText>
+  <components-select label="口座種別" value={brokerageAccount} options={accountTypes} data-role="brokerageAccount" onchange={handleChange}></components-select>
+  <components-textarea label="説明" value={description} data-role="description" onchange={handleChange}></components-textarea>
+</template>

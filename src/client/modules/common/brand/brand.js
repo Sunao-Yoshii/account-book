@@ -18,4 +18,12 @@ export default class Brand {
   static async all() {
     return Ajax.get(HTTP_ENDPOINT);
   }
+
+  static async update(id, name, account, description) {
+    return Ajax.post(`${HTTP_ENDPOINT}/${id}`, {
+      name: name,
+      account: account,
+      description: description
+    });
+  }
 }

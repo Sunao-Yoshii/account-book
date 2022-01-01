@@ -84,6 +84,18 @@ class BrandTable {
     });
   }
 
+  static async update(id, value, db = common.DBCommon.get()) {
+    return new Promise((resolve, reject) => {
+      db.run(
+        `update Brand set name=$name, account=$account, description=$description where id=$id`,
+        { $id: id, $name: value.name, $account: value.account, $description: value.description },
+        (err) => {
+          if (err) { reject(err); } else { resolve(); }
+        }
+      )
+    });
+  }
+
   /**
    * 保存
    * @param {Brand} brand 
@@ -92,7 +104,7 @@ class BrandTable {
   static async insert(brand, db = common.DBCommon.get()) {
     db.run(
       `insert into Brand (name, account, description) values ($name, $account, $description)`,
-      { $name: brand.name, $account: brand.account, $description:brand.description }
+      { $name: brand.name, $account: brand.account, $description: brand.description }
     );
   }
 

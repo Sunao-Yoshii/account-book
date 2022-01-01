@@ -1,0 +1,7 @@
+<template>
+  <div class="btn-group" role="group">
+    <template for:each={buttonList} for:item="item">
+      <button key={item.id} type="button" class={item.cssClass} data-id={item.id} onclick={handleClick}>{item.name}</button>
+    </template>
+  </div>
+</template>
