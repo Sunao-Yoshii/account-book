@@ -7,6 +7,9 @@ const getUrl = (brandId) => {
 const getSingleUrl = (brandId, investId) => {
   return HTTP_ENDPOINT + brandId +'/investments/' + investId;
 };
+const getHistoryUrl = (investId) => {
+  return 'http://localhost:3002/api/v1/invest/' + investId;
+}; 
 
 export default class Investment {
 
@@ -17,6 +20,15 @@ export default class Investment {
    */
   static async getInvestments(brandId) {
     return Ajax.get(getUrl(brandId));
+  }
+
+  /**
+   * 資産履歴IDをキーに、直近の資産価値情報を応答する
+   * @param {string} investmentId 
+   * @returns 
+   */
+  static async getDetail(investmentId) {
+    return Ajax.get(getHistoryUrl(investmentId) + '/latest');
   }
 
   /**

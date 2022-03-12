@@ -14,16 +14,7 @@
     </thead>
     <tbody>
       <template for:each={investments} for:item='item'>
-        <tr key={item.key}>
-          <th class="col">{item.amount}</th>
-          <th class="col"></th>
-          <th class="col">{item.stocks}</th>
-          <th class="col"></th>
-          <th class="col">{item.targetAmount}</th>
-          <th class="col">{item.purchaseDate}</th>
-          <th class="col"></th>
-          <th class="col"></th>
-        </tr>
+        <pages-investDetail key={item.key} investment={item} config={config}></pages-investDetail>
       </template>
     </tbody>
   </table>

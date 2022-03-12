@@ -92,6 +92,28 @@ app.delete('/api/v1/brand', async (req, res) => {
   }
 });
 
+app.get('/api/v1/invest/:id/latest', async (req, res) => {
+  console.log('get /api/v1/invest/:id/latest')
+  const id = req.params.id;
+  try {
+    res.json(await invest.InvestmentTable.selectHistory(id));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'SomethingWrong!' });
+  }
+});
+
+app.get('/api/v1/invest/:id', async (req, res) => {
+  console.log('get /api/v1/invest/:id')
+  const id = req.params.id;
+  try {
+    res.json(await invest.InvestmentTable.selectHistories(id));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'SomethingWrong!' });
+  }
+});
+
 app.get('/api/v1/brand/:id/investments', async (req, res) => {
   console.log('get /api/v1/brand/:id/investments')
   const id = req.params.id;
@@ -108,7 +130,7 @@ app.put('/api/v1/brand/:id/investments', async (req, res) => {
   const id = req.params.id;
   try {
     let investment = req.body;
-    await invest.InvestmentTable.insert(investment);
+    await invest.InvestmentTable.createInvest(investment);
     res.json({ status: 'success' });
   } catch (error) {
     console.log(error);
